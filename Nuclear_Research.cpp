@@ -198,6 +198,9 @@ Isotope makeIsotope(string name, int mass, double abundance){
 	otherwise, returns the number which input represents 
 */
 int tryInt(string input){
+	if(input.compare("0") == 0) {
+		return 119;
+	}
 	int check = 0;
 	int total = 0;
 	for(int i = 0; i < input.size(); i++){
@@ -214,7 +217,7 @@ int tryInt(string input){
 
 int main(){
 	//Creating the Element array
-	Element elements[118];
+	Element elements[119];
 	//Hydrogen
 	vector<Isotope> hList = {makeIsotope("H1", 1, 99.985), makeIsotope("H2", 2, 0.0125), 
 					makeIsotope("H3", 3, "12.33 y", 561400000, 0.018591), makeIsotope("H4", 4, "0", 0, 23.5)};
@@ -806,6 +809,8 @@ int main(){
         			makeIsotope("Th233", 233, "22.3 m", 1930, 1.2451), makeIsotope("Th234", 234, "24.10 d", 3004000, 0.273) };
 	elements[90 - 1] = makeElement("Thorium", 90, "Th", thList);
 	//Protactinium
+	//This element is ambiguous, according to some websites, this does not have any stable isotopes, according to others this does.
+	//Using webelements.com ti determine this.
 	vector<Isotope> paList = { makeIsotope("Pa230", 230, "17.40 d", 2169000, 7.313), makeIsotope("Pa231", 231, 100),
            			makeIsotope("Pa232", 232, "1.31 d", 163000, 1.832), makeIsotope("Pa233", 233, "26.967 d", 3361406, 0.5701) };
 	elements[90] = makeElement("Protactinium", 91, "Pa", paList);
@@ -869,25 +874,28 @@ int main(){
 	elements[117 - 1] = makeElement("Tennessine", 117, "Ts");
 	// Oganesson
 	elements[118 - 1] = makeElement("Oganesson", 118, "Og");
+	vector<Isotope> neutronList = {makeIsotope("Neutron", 1, "745.5 s", 1076, 0) };
+	
+	elements[118] = makeElement("Neutron", 0, "Neutron", neutronList);
 	
 	
 
 	
 	//continues to ask for user input until 0 is entered at which point, the program returns 0 and exits
-	string display = "Enter an atomic number or symbol or press '0' to exit.\n";
+	string display = "Enter an atomic number or symbol or input 'q' to exit.\n";
 	cout << display;
 	string input;
 	cin >> input;
 	Element element;
 	int num = 0;
-	while(input.compare("0") != 0){
+	while(input.compare("q") != 0){
 		num = tryInt(input);
 		//if the input was a number under 118, access that element of the array (num - 1)
-		if(num > 0 && num <= 118)
+		if(num > 0 && num <= 119)
 			element = elements[num - 1];
 		else 
 			element = search(input, elements); //in every other case, the input must have been invalid, or an atomic symbol so search accordingly
-		if(element.atomicNumber > 0) 
+		if(element.atomicNumber > -1) 
 			cout << toString(element);
 		cout << display;
 		cin >> input;
