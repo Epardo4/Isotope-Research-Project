@@ -908,7 +908,7 @@ int main(){
 	elements[117 - 1] = makeElement("Tennessine", 117, "Ts");
 	// Oganesson
 	elements[118 - 1] = makeElement("Oganesson", 118, "Og");
-	vector<Isotope> neutronList = {makeIsotope("Neutron", 1, "745.5 s", 1076, 0) };
+	vector<Isotope> neutronList = {makeIsotope("Neutron", 1, "612 s", 880, 0) };
 	elements[118] = makeElement("Neutron", 0, "Neutron", neutronList, neutronList);
 	
 
